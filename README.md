@@ -4,6 +4,30 @@
 
 Java Library for smsmanager.cz
 
+## Download
+
+### Maven
+
+1. Add the JitPack repository to your build file 
+    ```xml
+    <repositories>
+    	<repository>
+    	    <id>jitpack.io</id>
+    	    <url>https://jitpack.io</url>
+    	</repository>
+    </repositories>
+    ```
+2. Add the dependency
+    ```xml
+	<dependency>
+	    <groupId>com.github.hrubysoftware</groupId>
+	    <artifactId>smsmanager-java-library</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+    ```
+
+## How to use
+
 ```java
 class Main{
     public static void main(String[] args){
