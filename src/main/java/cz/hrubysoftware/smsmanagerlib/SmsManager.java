@@ -1,6 +1,8 @@
 package cz.hrubysoftware.smsmanagerlib;
 
 
+import cz.hrubysoftware.smsmanagerlib.exception.SmsFormatException;
+import cz.hrubysoftware.smsmanagerlib.exception.SmsTransportException;
 import cz.hrubysoftware.smsmanagerlib.model.Message;
 import cz.hrubysoftware.smsmanagerlib.model.Number;
 import cz.hrubysoftware.smsmanagerlib.model.RequestDocument;
@@ -28,34 +30,30 @@ public class SmsManager {
         this.sha1password = DigestUtils.sha1Hex(password.getBytes());
     }
 
-    public void sendMessage(String message, String... numbers) {
+    public void sendMessage(String message, String... numbers) throws SmsFormatException, SmsTransportException {
         RequestDocument requestDocument = new RequestDocument()
-                .requestHeader(
-                        new RequestHeader()
-                                .username(username)
-                                .password(sha1password))
+                .requestHeader(new RequestHeader()
+                        .username(username)
+                        .password(sha1password))
                 .requestList(new ArrayList<cz.hrubysoftware.smsmanagerlib.model.Request>() {{
-                    add(
-                            new cz.hrubysoftware.smsmanagerlib.model.Request()
-                                    .type(cz.hrubysoftware.smsmanagerlib.model.Request.Type.high)
-                                    .customId(0)
-                                    .message(
-                                            new Message()
-                                                    .message(message)
-                                                    .type(Message.Type.Text)
-                                    )
-                                    .numbersList(new ArrayList<Number>() {{
-                                        for (String number : numbers) add(new Number().number(number));
-                                    }}));
+                    add(new cz.hrubysoftware.smsmanagerlib.model.Request()
+                            .type(cz.hrubysoftware.smsmanagerlib.model.Request.Type.high)
+                            .customId(0)
+                            .message(new Message()
+                                    .message(message)
+                                    .type(Message.Type.Text))
+                            .numbersList(new ArrayList<Number>() {{
+                                for (String number : numbers) add(new Number().number(number));
+                            }}));
                 }});
 
         try {
             String data = serializeRequest(requestDocument);
             post(ENDPOINT_URL, data);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            throw new SmsFormatException("Malformed message.", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SmsTransportException("Failed to send a message", e);
         }
 
 
