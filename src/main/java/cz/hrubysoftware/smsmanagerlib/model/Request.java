@@ -1,10 +1,17 @@
 package cz.hrubysoftware.smsmanagerlib.model;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Collection;
 import java.util.Date;
 
+@Accessors(fluent = true)
+@Data
 public class Request {
 
     @XmlAttribute(name = "Type", required = true)
@@ -25,10 +32,12 @@ public class Request {
     @XmlElement(name = "Message", nillable = false)
     Message message;
 
-    @XmlElement(name = "NumbersList", nillable = false)
+    @XmlElementWrapper(name = "NumbersList")
+    @XmlElement(name = "Number", nillable = false)
     Collection<Number> numbersList;
 
-    enum Type {
+    @XmlType(namespace = "request")
+    public enum Type {
         high, economy, lowcost
     }
 }
