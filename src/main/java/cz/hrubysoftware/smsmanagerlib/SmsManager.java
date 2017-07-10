@@ -30,14 +30,14 @@ public class SmsManager {
         this.sha1password = DigestUtils.sha1Hex(password.getBytes());
     }
 
-    public void sendMessage(String message, String... numbers) throws SmsFormatException, SmsTransportException {
+    public void sendMessage(cz.hrubysoftware.smsmanagerlib.model.Request.Type priceType, String message, String... numbers) throws SmsFormatException, SmsTransportException {
         RequestDocument requestDocument = new RequestDocument()
                 .requestHeader(new RequestHeader()
                         .username(username)
                         .password(sha1password))
                 .requestList(new ArrayList<cz.hrubysoftware.smsmanagerlib.model.Request>() {{
                     add(new cz.hrubysoftware.smsmanagerlib.model.Request()
-                            .type(cz.hrubysoftware.smsmanagerlib.model.Request.Type.high)
+                            .type(priceType)
                             .customId(0)
                             .message(new Message()
                                     .message(message)
