@@ -22,7 +22,7 @@ Java Library for smsmanager.cz
 	<dependency>
 	    <groupId>com.github.hrubysoftware</groupId>
 	    <artifactId>smsmanager-java-library</artifactId>
-	    <version>1.0.0</version>
+	    <version>1.1.0</version>
 	</dependency>
     ```
 
