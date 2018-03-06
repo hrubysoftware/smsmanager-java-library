@@ -37,7 +37,7 @@ First parameter is a type of request, available values:
 ```java
 class Main{
     public static void main(String[] args){
-        SmsManager smsManager = new SmsManager(smsmanager@username.tld", "smsmanager-password");
+        SmsManager smsManager = new SmsManager("smsmanager@username.tld", "smsmanager-password");
         smsManager.sendMessage(Type.lowcost, "textMessage", "737111222", "777123456"); //one or more phone numbers
     }    
 }
